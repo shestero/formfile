@@ -10,7 +10,7 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
 object FieldsAndFiles {
 
   private def sink(implicit mat: Materializer, ec: ExecutionContext) =
-    Sink.foldAsync[FormRequest, FormData.BodyPart](FormRequest.empty) {
+    Sink.foldAsync[PostFormData, FormData.BodyPart](PostFormData.empty) {
       case (result, part) =>
         part.filename.map { fileName =>
           part.entity.dataBytes.runFold(result)(_.addFilePart(part.name, fileName, part.entity.contentType)(_))
@@ -26,7 +26,7 @@ object FieldsAndFiles {
         }
     }
 
-  def withFormContent: Directive1[Future[FormRequest]] =
+  def withFormContent: Directive1[Future[PostFormData]] =
     entity(as[FormData]).flatMap{ formData =>
       extractMaterializer.flatMap { implicit mat: Materializer =>
         extractExecutionContext.map { implicit ecx: ExecutionContextExecutor =>

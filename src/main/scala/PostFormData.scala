@@ -1,10 +1,7 @@
 import akka.http.scaladsl.model.ContentType
-import akka.stream.Materializer
-import akka.stream.scaladsl.Source
 import akka.util.ByteString
-import scala.util.chaining._
 
-case class FormRequest(fields: Map[String, String], files: Map[String, FormFileData]) {
+case class PostFormData(fields: Map[String, String], files: Map[String, FormFileData]) {
 
   private def filePart(
                         fieldName: String,
@@ -23,13 +20,13 @@ case class FormRequest(fields: Map[String, String], files: Map[String, FormFileD
                    fieldName: String,
                    fileName: String,
                    contentType: ContentType
-                 )(data: ByteString): FormRequest = {
+                 )(data: ByteString): PostFormData = {
     println(s"addFilePart: $fieldName $fileName $contentType ...")
     val part = filePart(fieldName, fileName, contentType, data)
     copy(files = files ++ Map(fieldName -> part))
   }
 
-  def addField(name: String, value: String): FormRequest =
+  def addField(name: String, value: String): PostFormData =
     copy(fields = fields ++ Map(name -> value))
 
   def out: String = {
@@ -38,6 +35,6 @@ case class FormRequest(fields: Map[String, String], files: Map[String, FormFileD
   }
 }
 
-object FormRequest {
-  def empty: FormRequest = FormRequest(Map.empty, Map.empty)
+object PostFormData {
+  def empty: PostFormData = PostFormData(Map.empty, Map.empty)
 }
