@@ -21,7 +21,6 @@ case class FormFileData(
     digest.update(data.asByteBuffer)
     this
   }
-  //copy(digest = digest.flatMap(digest => data.map(_.asByteBuffer).runFold(digest)((digest, bb) => digest.tap(_.update(bb)))))
 
   def out: String = {
     val hash = String.format("%032X", new BigInteger(1, digest.digest())).toLowerCase
