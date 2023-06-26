@@ -27,7 +27,7 @@ case class FormFileData(
     append(data)
   }
 
-  def out: String = {
+  override def toString(): String = {
     val hash = String.format("%032X", new BigInteger(1, digest.digest())).toLowerCase
     s"$hash $fileName ($contentType)"
   }

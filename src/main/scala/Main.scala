@@ -35,7 +35,7 @@ object Main extends App {
         withoutSizeLimit {
           FieldsAndFiles.withFormContent { content =>
             val source: Source[ByteString, NotUsed] =
-              Source.future(content.map(_.out)).keepAlive(5.seconds, () => "...\n").map(ByteString(_))
+              Source.future(content.map(_.toString)).keepAlive(5.seconds, () => "...\n").map(ByteString(_))
             complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, source))
           }
         }

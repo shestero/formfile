@@ -27,9 +27,9 @@ case class PostFormData(fields: Map[String, String], files: Map[String, FormFile
   def addField(name: String, value: String): PostFormData =
     copy(fields = fields ++ Map(name -> value))
 
-  def out: String = {
+  override def toString(): String = {
      "Fields:\n" + fields.map { case (name, value) => s"\t$name: $value" }.mkString("\n") + "\n" +
-     "Files:\n" + files.map { case (name, value) => s"\t$name: ${value.out}" }.mkString("\n")
+     "Files:\n" + files.map { case (name, value) => s"\t$name: $value" }.mkString("\n")
   }
 }
 
