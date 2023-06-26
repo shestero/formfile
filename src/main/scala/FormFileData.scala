@@ -10,7 +10,7 @@ case class FormFileData(
                        )
 {
 
-  // first peace of content of each file comes here; you may create on disk file here
+  // the first peace of content of each file comes here; you may create on disk file here
   protected def create(data: ByteString): FormFileData = append(data)
 
   // every next parts comes here
@@ -34,7 +34,7 @@ case class FormFileData(
 }
 
 object FormFileData {
-  // for first part
+  // for the first part
   def apply(fileName: String, contentType: ContentType, data: ByteString): FormFileData =
     FormFileData(fileName, contentType).create(data)
 }
