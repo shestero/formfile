@@ -10,16 +10,21 @@ case class FormFileData(
                        )
 {
 
-  def check(fileName: String, contentType: ContentType) = {
-    assert(fileName==this.fileName)
-    assert(contentType==this.contentType)
-  }
+  // first peace of content of each file comes here; you may create on disk file here
+  protected def create(data: ByteString): FormFileData = append(data)
 
-  def accept(data: ByteString): FormFileData =
+  // every next parts comes here
+  protected def append(data: ByteString): FormFileData =
   {
     println(s"processing part ${data.length}")
     digest.update(data.asByteBuffer)
     this
+  }
+
+  def next(fileName: String, contentType: ContentType, data: ByteString): FormFileData = {
+    assert(fileName==this.fileName)
+    assert(contentType==this.contentType)
+    append(data)
   }
 
   def out: String = {
@@ -30,9 +35,6 @@ case class FormFileData(
 
 object FormFileData {
   // for first part
-  def apply(fileName: String,
-            contentType: ContentType,
-            data: ByteString
-           ): FormFileData =
-    FormFileData(fileName, contentType).accept(data)
+  def apply(fileName: String, contentType: ContentType, data: ByteString): FormFileData =
+    FormFileData(fileName, contentType).create(data)
 }

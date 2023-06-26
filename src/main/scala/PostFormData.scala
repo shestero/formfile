@@ -11,9 +11,7 @@ case class PostFormData(fields: Map[String, String], files: Map[String, FormFile
                       ): FormFileData =
     files.get(fieldName) match {
       case None => FormFileData(fileName, contentType, data)
-      case Some(continue) =>
-        continue.check(fileName, contentType)
-        continue.accept(data)
+      case Some(continue) => continue.next(fileName, contentType, data)
     }
 
   def addFilePart(
