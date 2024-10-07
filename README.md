@@ -1,6 +1,6 @@
 # formfile
 
-Streaming file data from multipart forms with other fields with Akka-Http.
+Streaming file data from a multipart form together with getting other field values with Akka-Http.
 
 Thanks to
  - https://davidfrancoeur.com/post/akka-http-multipart-form
