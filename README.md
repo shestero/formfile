@@ -1,6 +1,6 @@
 # formfile
 
-This is my exmaple how to read data from forms with files input fields using Akka.
+Streaming file data from multipart forms with other fields with Akka-Http.
 
 Thanks to
  - https://davidfrancoeur.com/post/akka-http-multipart-form
